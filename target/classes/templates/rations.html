@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Рационы</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+<main class="container">
+    <div class="grid">
+        <div class="card" th:each="ration : ${rations}">
+            <h3 th:text="${ration.name}">Название рациона</h3>
+            <p th:text="${ration.description}">Описание</p>
+            <div class="actions" th:if="${currentProfile.name() == 'CLIENT'}">
+                <a class="button" th:href="@{/requests/new(rationId=${ration.id})}">Выбрать этот рацион</a>
+            </div>
+        </div>
+    </div>
+    <p class="footer-note" th:if="${#lists.isEmpty(rations)}">Активные рационы пока не добавлены.</p>
+</main>
+</body>
+</html>

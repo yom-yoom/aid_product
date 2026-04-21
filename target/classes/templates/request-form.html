@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Оформление заявки</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+<main class="container">
+    <div class="card">
+        <h2 class="section-title">Новая заявка на доставку</h2>
+        <form th:action="@{/requests}" th:object="${requestForm}" method="post">
+            <div class="form-grid">
+                <div>
+                    <label for="fullName">ФИО получателя</label>
+                    <input id="fullName" type="text" th:field="*{fullName}">
+                    <div class="error" th:errors="*{fullName}"></div>
+                </div>
+                <div>
+                    <label for="phone">Телефон</label>
+                    <input id="phone" type="text" th:field="*{phone}">
+                    <div class="error" th:errors="*{phone}"></div>
+                </div>
+                <div>
+                    <label for="category">Категория помощи</label>
+                    <select id="category" th:field="*{category}">
+                        <option value="">Выберите категорию</option>
+                        <option value="Пенсионер">Пенсионер</option>
+                        <option value="Многодетная семья">Многодетная семья</option>
+                        <option value="Социальный работник">Социальный работник / представитель</option>
+                    </select>
+                    <div class="error" th:errors="*{category}"></div>
+                </div>
+                <div>
+                    <label for="rationId">Рацион</label>
+                    <select id="rationId" th:field="*{rationId}">
+                        <option value="">Выберите рацион</option>
+                        <option th:each="ration : ${rations}"
+                                th:value="${ration.id}"
+                                th:text="${ration.name}"></option>
+                    </select>
+                    <div class="error" th:errors="*{rationId}"></div>
+                </div>
+            </div>
+            <div style="margin-top: 16px;">
+                <label for="address">Адрес доставки</label>
+                <textarea id="address" th:field="*{address}"></textarea>
+                <div class="error" th:errors="*{address}"></div>
+            </div>
+            <div class="actions">
+                <button type="submit">Отправить заявку</button>
+                <a class="button" th:href="@{/rations}">Назад к рациону</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Главная</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+<main class="container">
+    <div class="note">
+        Профили разделяют отображение интерфейса без сложной авторизации. Для демонстрации можно переключать роли прямо в шапке сайта.
+    </div>
+
+    <div class="grid" style="margin-top: 18px;">
+        <div class="card">
+            <h2 class="section-title">Рационы</h2>
+            <p class="kpi" th:text="${rationCount}">0</p>
+            <p class="muted">доступно активных наборов</p>
+        </div>
+        <div class="card">
+            <h2 class="section-title">Заявки</h2>
+            <p class="kpi" th:text="${requestCount}">0</p>
+            <p class="muted">всего создано заявок</p>
+        </div>
+        <div class="card">
+            <h2 class="section-title">Доставки</h2>
+            <p class="kpi" th:text="${deliveryCount}">0</p>
+            <p class="muted">записей по доставке</p>
+        </div>
+    </div>
+
+    <div class="grid" style="margin-top: 18px;">
+        <div class="card" th:if="${currentProfile.name() == 'CLIENT'}">
+            <h3>Получатель помощи</h3>
+            <p>Профиль позволяет просматривать доступные рационы и оформлять новую заявку на доставку продуктового набора.</p>
+            <div class="actions">
+                <a class="button" th:href="@{/rations}">Открыть каталог</a>
+                <a class="button" th:href="@{/requests/new}">Подать заявку</a>
+            </div>
+        </div>
+
+        <div class="card" th:if="${currentProfile.name() == 'ADMIN'}">
+            <h3>Администратор</h3>
+            <p>Администратор проверяет заявки, меняет их статус, добавляет рационы и назначает доставку волонтёрам.</p>
+            <div class="actions">
+                <a class="button" th:href="@{/admin/requests}">Открыть список заявок</a>
+                <a class="button" th:href="@{/admin/rations/new}">Добавить рацион</a>
+            </div>
+        </div>
+
+        <div class="card" th:if="${currentProfile.name() == 'VOLUNTEER'}">
+            <h3>Волонтёр</h3>
+            <p>Волонтёр получает список назначенных доставок, видит адрес и может зафиксировать завершение доставки.</p>
+            <div class="actions">
+                <a class="button" th:href="@{/volunteer/deliveries}">Открыть доставки</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 18px;">
+        <h3>Минимальная структура данных системы</h3>
+        <div class="grid">
+            <div>
+                <strong>Получатель помощи</strong>
+                <p class="muted">ФИО, телефон, адрес, категория помощи</p>
+            </div>
+            <div>
+                <strong>Рацион</strong>
+                <p class="muted">Название, описание, активность</p>
+            </div>
+            <div>
+                <strong>Заявка</strong>
+                <p class="muted">Статус, дата создания, комментарий администратора</p>
+            </div>
+            <div>
+                <strong>Волонтёр и доставка</strong>
+                <p class="muted">Назначение на доставку, плановая дата, фиксация результата</p>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

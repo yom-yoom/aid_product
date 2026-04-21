@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Доставки волонтёра</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+<main class="container">
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Заявка</th>
+                <th>Получатель</th>
+                <th>Волонтёр</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="delivery : ${deliveries}">
+                <td>
+                    <strong th:text="${delivery.helpRequest.ration.name}">Рацион</strong>
+                    <div class="muted" th:text="${delivery.scheduledAtLabel}">Плановая дата</div>
+                </td>
+                <td>
+                    <strong th:text="${delivery.helpRequest.beneficiary.fullName}">ФИО</strong>
+                    <div class="muted" th:text="${delivery.helpRequest.beneficiary.phone}">Телефон</div>
+                    <div class="muted" th:text="${delivery.helpRequest.beneficiary.address}">Адрес</div>
+                </td>
+                <td th:text="${delivery.volunteer != null ? delivery.volunteer.fullName : 'Не назначен'}">Волонтёр</td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${delivery.status.name() == 'DONE'} ? ' ok' : ' warn'"
+                          th:text="${delivery.status.label}">Статус</span>
+                    <div class="muted" th:text="${delivery.resultComment}">Комментарий</div>
+                </td>
+                <td>
+                    <form class="inline-form" th:if="${delivery.status.name() != 'DONE'}"
+                          th:action="@{'/volunteer/deliveries/' + ${delivery.id} + '/complete'}" method="post">
+                        <div style="min-width: 260px;">
+                            <label>Комментарий по результату</label>
+                            <input type="text" name="resultComment" placeholder="Например: набор передан лично">
+                        </div>
+                        <div>
+                            <button type="submit">Отметить как доставленную</button>
+                        </div>
+                    </form>
+                    <span class="badge ok" th:if="${delivery.status.name() == 'DONE'}">Доставка завершена</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

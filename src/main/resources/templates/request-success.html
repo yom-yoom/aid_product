@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Заявка отправлена</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+<main class="container">
+    <div class="card">
+        <h2>Заявка успешно отправлена</h2>
+        <p>Заявка зарегистрирована в системе. Администратор сможет просмотреть её и назначить дальнейшую обработку.</p>
+        <div class="actions">
+            <a class="button" th:href="@{/}">На главную</a>
+            <a class="button" th:href="@{/rations}">К каталогам рационов</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
