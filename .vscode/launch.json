@@ -16,7 +16,8 @@
             "name": "FoodAidApplication",
             "request": "launch",
             "mainClass": "ru.lab.foodaid.FoodAidApplication",
-            "projectName": "foodaid"
+            "projectName": "foodaid",
+            "onExit": "terminate"
         }
     ]
 }

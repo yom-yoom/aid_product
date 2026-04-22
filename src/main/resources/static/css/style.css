@@ -28,7 +28,7 @@ html, body {
 
 body {
     font-family: "Times New Roman", serif;
-    background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    background: #f5f7fb;
     color: var(--text);
 }
 
