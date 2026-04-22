@@ -7,15 +7,16 @@
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="card">
-        <h2>Заявка успешно отправлена</h2>
-        <p>Заявка зарегистрирована в системе. Администратор сможет просмотреть её и назначить дальнейшую обработку.</p>
-        <div class="actions">
-            <a class="button" th:href="@{/}">На главную</a>
-            <a class="button" th:href="@{/rations}">К каталогам рационов</a>
+<main class="page-shell narrow-shell">
+    <section class="success-card">
+        <span class="success-icon">✓</span>
+        <h2>Заявка отправлена</h2>
+        <p>Данные сохранены. Администратор сможет проверить заявку и назначить доставку.</p>
+        <div class="card-actions centered-actions">
+            <a class="btn btn-primary" th:href="@{/}">На главную</a>
+            <a class="btn btn-secondary" th:href="@{/rations}">К каталогу рационов</a>
         </div>
-    </div>
+    </section>
 </main>
 </body>
 </html>

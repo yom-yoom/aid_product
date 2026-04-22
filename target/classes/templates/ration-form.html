@@ -7,35 +7,30 @@
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="card">
-        <h2 class="section-title">Добавление нового рациона</h2>
-        <form th:action="@{/admin/rations}" th:object="${ration}" method="post">
-            <div class="form-grid">
-                <div>
-                    <label for="name">Название</label>
-                    <input id="name" type="text" th:field="*{name}">
-                    <div class="error" th:errors="*{name}"></div>
-                </div>
-                <div>
-                    <label for="active">Статус</label>
-                    <select id="active" th:field="*{active}">
-                        <option th:value="true">Активен</option>
-                        <option th:value="false">Неактивен</option>
-                    </select>
-                </div>
+<main class="page-shell narrow-shell">
+    <section class="form-card">
+        <div class="page-head compact-head">
+            <div>
+                <h2>Новый рацион</h2>
+                <p class="page-muted">Добавление продуктового набора в каталог.</p>
             </div>
-            <div style="margin-top: 16px;">
+        </div>
+
+        <form th:action="@{/admin/rations}" method="post">
+            <div>
+                <label for="name">Название</label>
+                <input id="name" type="text" name="name" required>
+            </div>
+            <div class="single-field">
                 <label for="description">Описание</label>
-                <textarea id="description" th:field="*{description}"></textarea>
-                <div class="error" th:errors="*{description}"></div>
+                <textarea id="description" name="description" required></textarea>
             </div>
-            <div class="actions">
-                <button type="submit">Сохранить рацион</button>
-                <a class="button" th:href="@{/rations}">К каталогу</a>
+            <div class="card-actions">
+                <button class="btn btn-primary" type="submit">Сохранить</button>
+                <a class="btn btn-secondary" th:href="@{/rations}">Назад к каталогу</a>
             </div>
         </form>
-    </div>
+    </section>
 </main>
 </body>
 </html>

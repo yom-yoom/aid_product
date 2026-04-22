@@ -7,9 +7,15 @@
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="card">
-        <h2 class="section-title">Новая заявка на доставку</h2>
+<main class="page-shell narrow-shell">
+    <section class="form-card">
+        <div class="page-head compact-head">
+            <div>
+                <h2>Новая заявка</h2>
+                <p class="page-muted">Заполните данные получателя и выберите рацион.</p>
+            </div>
+        </div>
+
         <form th:action="@{/requests}" th:object="${requestForm}" method="post">
             <div class="form-grid">
                 <div>
@@ -43,17 +49,19 @@
                     <div class="error" th:errors="*{rationId}"></div>
                 </div>
             </div>
-            <div style="margin-top: 16px;">
+
+            <div class="single-field">
                 <label for="address">Адрес доставки</label>
                 <textarea id="address" th:field="*{address}"></textarea>
                 <div class="error" th:errors="*{address}"></div>
             </div>
-            <div class="actions">
-                <button type="submit">Отправить заявку</button>
-                <a class="button" th:href="@{/rations}">Назад к рациону</a>
+
+            <div class="card-actions">
+                <button class="btn btn-primary" type="submit">Отправить заявку</button>
+                <a class="btn btn-secondary" th:href="@{/rations}">Назад к каталогу</a>
             </div>
         </form>
-    </div>
+    </section>
 </main>
 </body>
 </html>

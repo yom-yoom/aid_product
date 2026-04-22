@@ -7,14 +7,14 @@
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="card">
+<main class="page-shell narrow-shell">
+    <section class="form-card centered-card">
         <h2>Доступ ограничен</h2>
-        <p>Для этой страницы нужен другой профиль. Переключи роль в шапке сайта и попробуй снова.</p>
-        <div class="actions">
-            <a class="button" th:href="@{/}">На главную</a>
+        <p class="page-muted">Для открытия этой страницы выберите другой профиль в верхней части интерфейса.</p>
+        <div class="card-actions centered-actions">
+            <a class="btn btn-primary" th:href="@{/}">Вернуться на главную</a>
         </div>
-    </div>
+    </section>
 </main>
 </body>
 </html>

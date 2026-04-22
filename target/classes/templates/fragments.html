@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <body>
-<header th:fragment="siteHeader(pageTitle)" class="header">
-    <div class="header-inner">
-        <div class="header-row">
-            <div>
-                <h1 class="site-title">Система адресной доставки продуктовых наборов</h1>
-                <p class="subtitle" th:text="${pageTitle}">Страница</p>
-            </div>
-            <div>
-                <div class="muted" style="margin-bottom: 6px;">Текущий профиль:</div>
-                <div class="profile-switcher">
-                    <a th:href="@{/profile/select(role='CLIENT')}"
-                       th:classappend="${currentProfile.name() == 'CLIENT'} ? ' profile-active' : ''">Получатель помощи</a>
-                    <a th:href="@{/profile/select(role='ADMIN')}"
-                       th:classappend="${currentProfile.name() == 'ADMIN'} ? ' profile-active' : ''">Администратор</a>
-                    <a th:href="@{/profile/select(role='VOLUNTEER')}"
-                       th:classappend="${currentProfile.name() == 'VOLUNTEER'} ? ' profile-active' : ''">Волонтёр</a>
-                </div>
+<header th:fragment="siteHeader(pageTitle)" class="topbar">
+    <div class="topbar-inner">
+        <div class="brand-block">
+            <a class="brand-link" th:href="@{/}">
+                <span class="brand-mark">FP</span>
+                <span>
+                    <span class="brand-title">Система адресной доставки продуктовых наборов</span>
+                    <span class="brand-subtitle" th:text="${pageTitle}">Страница</span>
+                </span>
+            </a>
+        </div>
+
+        <div class="profile-panel">
+            <span class="panel-label">Профиль</span>
+            <div class="profile-switcher">
+                <a th:href="@{/profile/select(role='CLIENT')}"
+                   th:classappend="${currentProfile.name() == 'CLIENT'} ? ' is-active' : ''">Получатель</a>
+                <a th:href="@{/profile/select(role='ADMIN')}"
+                   th:classappend="${currentProfile.name() == 'ADMIN'} ? ' is-active' : ''">Администратор</a>
+                <a th:href="@{/profile/select(role='VOLUNTEER')}"
+                   th:classappend="${currentProfile.name() == 'VOLUNTEER'} ? ' is-active' : ''">Волонтёр</a>
             </div>
         </div>
-        <div class="nav" style="margin-top: 16px;">
+    </div>
+
+    <div class="topbar-inner nav-row">
+        <nav class="nav-links">
             <a th:href="@{/}">Главная</a>
             <a th:href="@{/rations}">Рационы</a>
             <a th:href="@{/requests/new}" th:if="${currentProfile.name() == 'CLIENT'}">Оформить заявку</a>
-            <a th:href="@{/admin/requests}" th:if="${currentProfile.name() == 'ADMIN'}">Заявки администратора</a>
+            <a th:href="@{/admin/requests}" th:if="${currentProfile.name() == 'ADMIN'}">Заявки</a>
             <a th:href="@{/admin/rations/new}" th:if="${currentProfile.name() == 'ADMIN'}">Добавить рацион</a>
-            <a th:href="@{/volunteer/deliveries}" th:if="${currentProfile.name() == 'VOLUNTEER'}">Доставки волонтёра</a>
-        </div>
+            <a th:href="@{/volunteer/deliveries}" th:if="${currentProfile.name() == 'VOLUNTEER'}">Мои доставки</a>
+        </nav>
     </div>
 </header>
 </body>

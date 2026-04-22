@@ -2,98 +2,107 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Заявки администратора</title>
+    <title th:text="${pageTitle}">Заявки</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="table-wrap">
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Получатель</th>
-                <th>Рацион</th>
-                <th>Статус</th>
-                <th>Доставка</th>
-                <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="request : ${requests}">
-                <td th:text="${request.id}">1</td>
-                <td>
-                    <strong th:text="${request.beneficiary.fullName}">ФИО</strong>
-                    <div class="muted" th:text="${request.beneficiary.phone}">Телефон</div>
-                    <div class="muted" th:text="${request.beneficiary.address}">Адрес</div>
-                    <div class="muted" th:text="${request.beneficiary.category}">Категория</div>
-                </td>
-                <td>
-                    <strong th:text="${request.ration.name}">Рацион</strong>
-                    <div class="muted" th:text="${request.createdAtLabel}">Дата</div>
-                </td>
-                <td>
-                    <span class="badge"
-                          th:classappend="${request.status.name() == 'DONE'} ? ' ok' : (${request.status.name() == 'REJECTED'} ? ' bad' : ' warn')"
-                          th:text="${request.status.label}">Новая</span>
-                    <div class="muted" th:text="${request.adminComment}">Комментарий</div>
-                </td>
-                <td>
-                    <div th:if="${request.delivery != null}">
-                        <strong th:text="${request.delivery.status.label}">Статус доставки</strong>
-                        <div class="muted" th:text="${request.delivery.volunteer != null ? request.delivery.volunteer.fullName : 'Волонтёр не назначен'}">Волонтёр</div>
-                        <div class="muted" th:text="${request.delivery.scheduledAtLabel}">Плановая дата</div>
-                    </div>
-                    <div class="muted" th:if="${request.delivery == null}">Доставка ещё не создана</div>
-                </td>
-                <td>
-                    <form class="inline-form" th:action="@{'/admin/requests/' + ${request.id} + '/status'}" method="post" style="margin-bottom: 10px;">
-                        <div>
-                            <label>Статус заявки</label>
-                            <select name="status">
-                                <option th:each="status : ${statuses}"
-                                        th:value="${status}"
-                                        th:selected="${status == request.status}"
-                                        th:text="${status.label}"></option>
-                            </select>
-                        </div>
-                        <div style="min-width: 220px;">
-                            <label>Комментарий</label>
-                            <input type="text" name="adminComment" th:value="${request.adminComment}">
-                        </div>
-                        <div>
-                            <button type="submit">Сохранить</button>
-                        </div>
-                    </form>
+<main class="page-shell">
+    <section class="page-head">
+        <div>
+            <h2>Заявки</h2>
+            <p class="page-muted">Проверка заявок, изменение статусов и назначение доставки.</p>
+        </div>
+    </section>
 
-                    <form class="inline-form" th:action="@{'/admin/requests/' + ${request.id} + '/assign-delivery'}" method="post">
-                        <div>
-                            <label>Волонтёр</label>
-                            <select name="volunteerId">
-                                <option value="">Выберите волонтёра</option>
-                                <option th:each="volunteer : ${volunteers}"
-                                        th:value="${volunteer.id}"
-                                        th:text="${volunteer.fullName}"></option>
-                            </select>
+    <section class="table-card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Получатель</th>
+                    <th>Рацион</th>
+                    <th>Статус заявки</th>
+                    <th>Доставка</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="request : ${requests}">
+                    <td th:text="${request.id}">1</td>
+                    <td>
+                        <strong th:text="${request.beneficiary.fullName}">ФИО</strong>
+                        <div class="muted-line" th:text="${request.beneficiary.phone}">Телефон</div>
+                        <div class="muted-line" th:text="${request.beneficiary.address}">Адрес</div>
+                        <div class="muted-line" th:text="${request.beneficiary.category}">Категория</div>
+                    </td>
+                    <td>
+                        <strong th:text="${request.ration.name}">Рацион</strong>
+                        <div class="muted-line" th:text="${request.createdAtLabel}">Дата</div>
+                    </td>
+                    <td>
+                        <span class="status-chip"
+                              th:classappend="${request.status.name() == 'DONE'} ? ' status-done' : (${request.status.name() == 'REJECTED'} ? ' status-rejected' : ' status-progress')"
+                              th:text="${request.status.label}">Новая</span>
+                        <div class="muted-line" th:text="${request.adminComment}">Комментарий</div>
+                    </td>
+                    <td>
+                        <div th:if="${request.delivery != null}">
+                            <strong th:text="${request.delivery.status.label}">Статус доставки</strong>
+                            <div class="muted-line" th:text="${request.delivery.volunteer != null ? request.delivery.volunteer.fullName : 'Волонтёр не назначен'}">Волонтёр</div>
+                            <div class="muted-line" th:text="${request.delivery.scheduledAtLabel}">Плановая дата</div>
                         </div>
-                        <div>
-                            <label>Дата доставки</label>
-                            <input type="datetime-local" name="scheduledAt">
-                        </div>
-                        <div style="min-width: 220px;">
-                            <label>Комментарий</label>
-                            <input type="text" name="deliveryComment">
-                        </div>
-                        <div>
-                            <button type="submit">Назначить доставку</button>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                        <div class="muted-line" th:if="${request.delivery == null}">Доставка ещё не назначена</div>
+                    </td>
+                    <td>
+                        <form class="stack-form" th:action="@{'/admin/requests/' + ${request.id} + '/status'}" method="post">
+                            <div class="field-row">
+                                <div>
+                                    <label>Статус заявки</label>
+                                    <select name="status">
+                                        <option th:each="status : ${statuses}"
+                                                th:value="${status}"
+                                                th:selected="${status == request.status}"
+                                                th:text="${status.label}"></option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Комментарий</label>
+                                    <input type="text" name="adminComment" th:value="${request.adminComment}">
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" type="submit">Сохранить статус</button>
+                        </form>
+
+                        <form class="stack-form spacing-top" th:action="@{'/admin/requests/' + ${request.id} + '/assign-delivery'}" method="post">
+                            <div class="field-row">
+                                <div>
+                                    <label>Волонтёр</label>
+                                    <select name="volunteerId">
+                                        <option value="">Выберите волонтёра</option>
+                                        <option th:each="volunteer : ${volunteers}"
+                                                th:value="${volunteer.id}"
+                                                th:text="${volunteer.fullName}"></option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Дата доставки</label>
+                                    <input type="datetime-local" name="scheduledAt">
+                                </div>
+                                <div>
+                                    <label>Комментарий</label>
+                                    <input type="text" name="deliveryComment">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Назначить доставку</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </main>
 </body>
 </html>

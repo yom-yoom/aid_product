@@ -7,78 +7,106 @@
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="note">
-        Профили разделяют отображение интерфейса без сложной авторизации. Для демонстрации можно переключать роли прямо в шапке сайта.
-    </div>
 
-    <div class="grid" style="margin-top: 18px;">
-        <div class="card">
-            <h2 class="section-title">Рационы</h2>
-            <p class="kpi" th:text="${rationCount}">0</p>
-            <p class="muted">доступно активных наборов</p>
+<main class="page-shell">
+    <section class="hero" th:if="${currentProfile.name() == 'CLIENT'}">
+        <div>
+            <span class="hero-tag">Профиль: получатель помощи</span>
+            <h2>Оформление заявки на доставку продуктового набора</h2>
+            <p>Выберите подходящий рацион и отправьте заявку на доставку.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" th:href="@{/rations}">Открыть каталог</a>
+                <a class="btn btn-secondary" th:href="@{/requests/new}">Подать заявку</a>
+            </div>
         </div>
-        <div class="card">
-            <h2 class="section-title">Заявки</h2>
-            <p class="kpi" th:text="${requestCount}">0</p>
-            <p class="muted">всего создано заявок</p>
+        <div class="stats-grid compact-stats">
+            <div class="stat-card">
+                <span class="stat-label">Доступные рационы</span>
+                <strong class="stat-value" th:text="${rationCount}">0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Заявки в системе</span>
+                <strong class="stat-value" th:text="${requestCount}">0</strong>
+            </div>
         </div>
-        <div class="card">
-            <h2 class="section-title">Доставки</h2>
-            <p class="kpi" th:text="${deliveryCount}">0</p>
-            <p class="muted">записей по доставке</p>
-        </div>
-    </div>
+    </section>
 
-    <div class="grid" style="margin-top: 18px;">
-        <div class="card" th:if="${currentProfile.name() == 'CLIENT'}">
-            <h3>Получатель помощи</h3>
-            <p>Профиль позволяет просматривать доступные рационы и оформлять новую заявку на доставку продуктового набора.</p>
-            <div class="actions">
-                <a class="button" th:href="@{/rations}">Открыть каталог</a>
-                <a class="button" th:href="@{/requests/new}">Подать заявку</a>
+    <section class="hero" th:if="${currentProfile.name() == 'ADMIN'}">
+        <div>
+            <span class="hero-tag">Профиль: администратор</span>
+            <h2>Управление заявками и доставкой</h2>
+            <p>Проверяйте заявки, назначайте волонтёров и обновляйте статусы обработки.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" th:href="@{/admin/requests}">Перейти к заявкам</a>
+                <a class="btn btn-secondary" th:href="@{/admin/rations/new}">Добавить рацион</a>
             </div>
         </div>
+        <div class="stats-grid compact-stats">
+            <div class="stat-card">
+                <span class="stat-label">Всего заявок</span>
+                <strong class="stat-value" th:text="${requestCount}">0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Доставки</span>
+                <strong class="stat-value" th:text="${deliveryCount}">0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Рационы</span>
+                <strong class="stat-value" th:text="${rationCount}">0</strong>
+            </div>
+        </div>
+    </section>
 
-        <div class="card" th:if="${currentProfile.name() == 'ADMIN'}">
-            <h3>Администратор</h3>
-            <p>Администратор проверяет заявки, меняет их статус, добавляет рационы и назначает доставку волонтёрам.</p>
-            <div class="actions">
-                <a class="button" th:href="@{/admin/requests}">Открыть список заявок</a>
-                <a class="button" th:href="@{/admin/rations/new}">Добавить рацион</a>
+    <section class="hero" th:if="${currentProfile.name() == 'VOLUNTEER'}">
+        <div>
+            <span class="hero-tag">Профиль: волонтёр</span>
+            <h2>Работа с назначенными доставками</h2>
+            <p>Откройте список назначенных доставок и отметьте выполненные заявки.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" th:href="@{/volunteer/deliveries}">Открыть доставки</a>
             </div>
         </div>
+        <div class="stats-grid compact-stats">
+            <div class="stat-card">
+                <span class="stat-label">Назначенные доставки</span>
+                <strong class="stat-value" th:text="${deliveryCount}">0</strong>
+            </div>
+        </div>
+    </section>
 
-        <div class="card" th:if="${currentProfile.name() == 'VOLUNTEER'}">
-            <h3>Волонтёр</h3>
-            <p>Волонтёр получает список назначенных доставок, видит адрес и может зафиксировать завершение доставки.</p>
-            <div class="actions">
-                <a class="button" th:href="@{/volunteer/deliveries}">Открыть доставки</a>
-            </div>
-        </div>
-    </div>
+    <section class="quick-grid" th:if="${currentProfile.name() == 'CLIENT'}">
+        <article class="quick-card">
+            <h3>Каталог рационов</h3>
+            <p>Просмотр доступных наборов и выбор подходящего варианта.</p>
+            <a class="text-link" th:href="@{/rations}">Перейти в каталог</a>
+        </article>
+        <article class="quick-card">
+            <h3>Новая заявка</h3>
+            <p>Заполнение данных получателя и адреса доставки.</p>
+            <a class="text-link" th:href="@{/requests/new}">Открыть форму</a>
+        </article>
+    </section>
 
-    <div class="card" style="margin-top: 18px;">
-        <h3>Минимальная структура данных системы</h3>
-        <div class="grid">
-            <div>
-                <strong>Получатель помощи</strong>
-                <p class="muted">ФИО, телефон, адрес, категория помощи</p>
-            </div>
-            <div>
-                <strong>Рацион</strong>
-                <p class="muted">Название, описание, активность</p>
-            </div>
-            <div>
-                <strong>Заявка</strong>
-                <p class="muted">Статус, дата создания, комментарий администратора</p>
-            </div>
-            <div>
-                <strong>Волонтёр и доставка</strong>
-                <p class="muted">Назначение на доставку, плановая дата, фиксация результата</p>
-            </div>
-        </div>
-    </div>
+    <section class="quick-grid" th:if="${currentProfile.name() == 'ADMIN'}">
+        <article class="quick-card">
+            <h3>Список заявок</h3>
+            <p>Изменение статуса заявки и просмотр информации по получателю.</p>
+            <a class="text-link" th:href="@{/admin/requests}">Открыть список</a>
+        </article>
+        <article class="quick-card">
+            <h3>Добавление рациона</h3>
+            <p>Создание нового продуктового набора для каталога.</p>
+            <a class="text-link" th:href="@{/admin/rations/new}">Добавить рацион</a>
+        </article>
+    </section>
+
+    <section class="quick-grid" th:if="${currentProfile.name() == 'VOLUNTEER'}">
+        <article class="quick-card">
+            <h3>Мои доставки</h3>
+            <p>Просмотр адресов, контактов и подтверждение выполнения доставки.</p>
+            <a class="text-link" th:href="@{/volunteer/deliveries}">Перейти к доставкам</a>
+        </article>
+    </section>
 </main>
 </body>
 </html>

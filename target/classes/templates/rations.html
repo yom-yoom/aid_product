@@ -7,17 +7,31 @@
 </head>
 <body>
 <div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
-<main class="container">
-    <div class="grid">
-        <div class="card" th:each="ration : ${rations}">
-            <h3 th:text="${ration.name}">Название рациона</h3>
-            <p th:text="${ration.description}">Описание</p>
-            <div class="actions" th:if="${currentProfile.name() == 'CLIENT'}">
-                <a class="button" th:href="@{/requests/new(rationId=${ration.id})}">Выбрать этот рацион</a>
-            </div>
+<main class="page-shell">
+    <section class="page-head">
+        <div>
+            <h2>Каталог рационов</h2>
+            <p class="page-muted">Доступные продуктовые наборы для оформления заявки.</p>
         </div>
+        <a class="btn btn-secondary" th:href="@{/admin/rations/new}" th:if="${currentProfile.name() == 'ADMIN'}">Добавить рацион</a>
+    </section>
+
+    <section class="catalog-grid">
+        <article class="catalog-card" th:each="ration : ${rations}">
+            <div class="catalog-top">
+                <span class="soft-badge">Рацион</span>
+            </div>
+            <h3 th:text="${ration.name}">Название рациона</h3>
+            <p class="catalog-description" th:text="${ration.description}">Описание</p>
+            <div class="card-actions" th:if="${currentProfile.name() == 'CLIENT'}">
+                <a class="btn btn-primary" th:href="@{/requests/new(rationId=${ration.id})}">Выбрать</a>
+            </div>
+        </article>
+    </section>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(rations)}">
+        В каталоге пока нет активных рационов.
     </div>
-    <p class="footer-note" th:if="${#lists.isEmpty(rations)}">Активные рационы пока не добавлены.</p>
 </main>
 </body>
 </html>
