@@ -36,7 +36,7 @@
                     <td>
                         <strong th:text="${delivery.helpRequest.beneficiary.fullName}">ФИО</strong>
                         <div class="muted-line" th:text="${delivery.helpRequest.beneficiary.phone}">Телефон</div>
-                        <div class="muted-line" th:text="${delivery.helpRequest.beneficiary.address}">Адрес</div>
+                        <div class="muted-line" th:text="${delivery.helpRequest.deliveryAddress != null ? delivery.helpRequest.deliveryAddress : delivery.helpRequest.beneficiary.address}">Адрес доставки</div>
                     </td>
                     <td th:text="${delivery.volunteer != null ? delivery.volunteer.fullName : 'Не назначен'}">Волонтёр</td>
                     <td>

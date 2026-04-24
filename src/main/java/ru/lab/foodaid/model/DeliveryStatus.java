@@ -1,9 +1,9 @@
 package ru.lab.foodaid.model;
 
 public enum DeliveryStatus {
-    PLANNED("Запланирована"),
-    IN_PROGRESS("В доставке"),
-    DONE("Доставлена");
+    ASSIGNED("Назначена"),
+    DONE("Доставлена"),
+    CANCELED("Отменена");
 
     private final String label;
 

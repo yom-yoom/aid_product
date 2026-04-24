@@ -28,11 +28,8 @@ public class AdminController extends BaseController {
     }
 
     @GetMapping("/admin/requests")
-    public String adminRequests(@ModelAttribute("currentProfile") UserProfile currentProfile,
-                                Model model) {
-        if (!hasAccess(currentProfile, UserProfile.ADMIN)) {
-            return "redirect:/access-denied";
-        }
+    public String adminRequests(@ModelAttribute("currentProfile") UserProfile currentProfile, Model model) {
+        if (!hasAccess(currentProfile, UserProfile.ADMIN)) return "redirect:/access-denied";
         model.addAttribute("pageTitle", "Заявки администратора");
         model.addAttribute("requests", requestService.findAll());
         model.addAttribute("statuses", RequestStatus.values());
@@ -45,9 +42,7 @@ public class AdminController extends BaseController {
                                @PathVariable Long id,
                                @RequestParam RequestStatus status,
                                @RequestParam(required = false) String adminComment) {
-        if (!hasAccess(currentProfile, UserProfile.ADMIN)) {
-            return "redirect:/access-denied";
-        }
+        if (!hasAccess(currentProfile, UserProfile.ADMIN)) return "redirect:/access-denied";
         requestService.updateStatus(id, status, adminComment);
         return "redirect:/admin/requests";
     }
@@ -58,9 +53,7 @@ public class AdminController extends BaseController {
                                  @RequestParam Long volunteerId,
                                  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime scheduledAt,
                                  @RequestParam(required = false) String deliveryComment) {
-        if (!hasAccess(currentProfile, UserProfile.ADMIN)) {
-            return "redirect:/access-denied";
-        }
+        if (!hasAccess(currentProfile, UserProfile.ADMIN)) return "redirect:/access-denied";
         deliveryService.assignDelivery(id, volunteerId, scheduledAt, deliveryComment);
         return "redirect:/admin/requests";
     }

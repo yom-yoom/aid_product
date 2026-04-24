@@ -20,43 +20,24 @@ public class RequestCreateForm {
     @NotNull(message = "Выберите рацион")
     private Long rationId;
 
-    public String getFullName() {
-        return fullName;
-    }
+    private String deliveryAddress;
+    private String receiptChannel;
+    private String adminComment;
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Long getRationId() {
-        return rationId;
-    }
-
-    public void setRationId(Long rationId) {
-        this.rationId = rationId;
-    }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+    public Long getRationId() { return rationId; }
+    public void setRationId(Long rationId) { this.rationId = rationId; }
+    public String getDeliveryAddress() { return deliveryAddress; }
+    public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
+    public String getReceiptChannel() { return receiptChannel; }
+    public void setReceiptChannel(String receiptChannel) { this.receiptChannel = receiptChannel; }
+    public String getAdminComment() { return adminComment; }
+    public void setAdminComment(String adminComment) { this.adminComment = adminComment; }
 }

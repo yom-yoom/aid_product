@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Состав рациона</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+<main class="page-shell">
+    <section class="page-head">
+        <div>
+            <h2 th:text="${ration.name}">Рацион</h2>
+            <p class="page-muted">Управление составом выбранного рациона.</p>
+        </div>
+    </section>
+
+    <section class="form-card">
+        <h3>Добавить продукт в рацион</h3>
+        <form th:action="@{/admin/rations/{id}/composition(id=${ration.id})}" method="post" class="form-grid">
+            <div>
+                <label for="productId">Продукт</label>
+                <select id="productId" name="productId" required>
+                    <option value="">Выберите продукт</option>
+                    <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name + ' (' + product.unitOfMeasurement + ')'}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="quantity">Количество</label>
+                <input id="quantity" type="number" step="0.01" min="0.01" name="quantity" required>
+            </div>
+            <div class="card-actions" style="align-items:end;">
+                <button class="btn btn-primary" type="submit">Добавить</button>
+                <a class="btn btn-secondary" th:href="@{/rations}">Назад</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="table-card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Продукт</th>
+                    <th>Единица измерения</th>
+                    <th>Количество</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="comp : ${compositions}">
+                    <td th:text="${comp.product.name}">Продукт</td>
+                    <td th:text="${comp.product.unitOfMeasurement}">шт</td>
+                    <td th:text="${comp.quantity}">1</td>
+                    <td>
+                        <form th:action="@{/admin/rations/{rationId}/composition/{productId}/delete(rationId=${ration.id},productId=${comp.product.id})}" method="post">
+                            <button class="btn btn-secondary" type="submit">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(compositions)}">
+                    <td colspan="4">Состав рациона пока не заполнен.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,3 +1,7 @@
+kill -9 $(lsof -t -i:8080)
+docker-compose up -d postgres
+включи порт и пингуй в консоли
+
 # Система адресной доставки продуктовых наборов
 
 Минимальное веб-приложение на Spring Boot + Thymeleaf + JPA.

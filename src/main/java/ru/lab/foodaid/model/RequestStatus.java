@@ -2,8 +2,7 @@ package ru.lab.foodaid.model;
 
 public enum RequestStatus {
     NEW("Новая"),
-    APPROVED("Одобрена"),
-    ASSIGNED("Назначена на доставку"),
+    IN_DELIVERY("Передана в доставку"),
     DONE("Доставлена"),
     REJECTED("Отклонена");
 

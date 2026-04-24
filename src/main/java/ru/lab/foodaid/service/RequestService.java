@@ -8,6 +8,7 @@ import ru.lab.foodaid.model.HelpRequest;
 import ru.lab.foodaid.model.RequestStatus;
 import ru.lab.foodaid.repository.HelpRequestRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,13 +31,19 @@ public class RequestService {
                 form.getAddress(),
                 form.getCategory()
         );
+        beneficiary.setBenefitStatus("Подтверждается");
+        beneficiary.setCreatedAt(LocalDateTime.now());
 
         HelpRequest request = new HelpRequest(
                 beneficiary,
                 rationService.getById(form.getRationId()),
                 RequestStatus.NEW,
-                ""
+                form.getAdminComment() != null ? form.getAdminComment() : ""
         );
+        request.setDeliveryAddress(form.getDeliveryAddress() != null && !form.getDeliveryAddress().isBlank()
+                ? form.getDeliveryAddress()
+                : form.getAddress());
+        request.setReceiptChannel(form.getReceiptChannel());
         return helpRequestRepository.save(request);
     }
 

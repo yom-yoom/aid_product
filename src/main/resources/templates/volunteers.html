@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Волонтёры</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: siteHeader(${pageTitle})}"></div>
+
+<main class="page-shell">
+    <section class="page-head">
+        <div><h2 th:text="${pageTitle}"></h2></div>
+        <a href="/admin/volunteers/new" class="btn btn-primary">+ Добавить волонтёра</a>
+    </section>
+
+    <div th:if="${volunteers.isEmpty()}" class="empty-state">
+        <p>Волонтёры не найдены</p>
+    </div>
+
+    <section class="table-card" th:unless="${volunteers.isEmpty()}">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>Телефон</th>
+            <th>Тип транспорта</th>
+            <th>Статус доступности</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="volunteer : ${volunteers}">
+            <td th:text="${volunteer.id}"></td>
+            <td th:text="${volunteer.fullName}"></td>
+            <td th:text="${volunteer.phone}"></td>
+            <td th:text="${volunteer.transportType != null ? volunteer.transportType : '-'}"></td>
+            <td th:text="${volunteer.availabilityStatus != null ? volunteer.availabilityStatus : '-'}"></td>
+            <td>
+                <a th:href="@{/admin/volunteers/{id}/edit(id=${volunteer.id})}" class="btn btn-sm btn-info">Редактировать</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </section>
+</main>
+</body>
+</html>

@@ -11,7 +11,8 @@
     <section class="page-head">
         <div>
             <h2>Каталог рационов</h2>
-            <p class="page-muted">Доступные продуктовые наборы для оформления заявки.</p>
+            <p class="page-muted" th:if="${currentProfile.name() == 'ADMIN'}">Для администратора отображаются все рационы, включая деактивированные.</p>
+            <p class="page-muted" th:if="${currentProfile.name() != 'ADMIN'}">Доступные продуктовые наборы для оформления заявки.</p>
         </div>
         <a class="btn btn-secondary" th:href="@{/admin/rations/new}" th:if="${currentProfile.name() == 'ADMIN'}">Добавить рацион</a>
     </section>
@@ -20,11 +21,43 @@
         <article class="catalog-card" th:each="ration : ${rations}">
             <div class="catalog-top">
                 <span class="soft-badge">Рацион</span>
+                <span class="soft-badge" th:if="${ration.period != null and !ration.period.isBlank()}" th:text="${ration.period}">на 3 дня</span>
             </div>
-            <h3 th:text="${ration.name}">Название рациона</h3>
+
+            <div class="card-top-row" th:if="${currentProfile.name() == 'ADMIN'}" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+                <h3 th:text="${ration.name}" style="margin-bottom:0;">Название рациона</h3>
+                <span th:if="${ration.active}" class="soft-badge">Активен</span>
+                <span th:if="${!ration.active}" class="soft-badge" style="background:#fee2e2;color:#991b1b;border-color:#fecaca;">Неактивен</span>
+            </div>
+            <h3 th:if="${currentProfile.name() != 'ADMIN'}" th:text="${ration.name}">Название рациона</h3>
+
             <p class="catalog-description" th:text="${ration.description}">Описание</p>
+            <div class="muted-line" th:if="${#lists.isEmpty(ration.compositions)}">Состав пока не заполнен</div>
+            <ul class="simple-list" th:if="${!#lists.isEmpty(ration.compositions)}">
+                <li th:each="comp : ${ration.compositions}"
+                    th:text="${comp.product.name + ' — ' + comp.quantity + ' ' + comp.product.unitOfMeasurement}">Продукт</li>
+            </ul>
+
             <div class="card-actions" th:if="${currentProfile.name() == 'CLIENT'}">
                 <a class="btn btn-primary" th:href="@{/requests/new(rationId=${ration.id})}">Выбрать</a>
+            </div>
+
+            <div class="card-actions" th:if="${currentProfile.name() == 'ADMIN'}">
+                <a class="btn btn-secondary" th:href="@{/admin/rations/{id}/composition(id=${ration.id})}">Состав рациона</a>
+
+                <form th:if="${ration.active}"
+                      th:action="@{/admin/rations/{id}/deactivate(id=${ration.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <button class="btn btn-danger" type="submit">Деактивировать</button>
+                </form>
+
+                <form th:if="${!ration.active}"
+                      th:action="@{/admin/rations/{id}/activate(id=${ration.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <button class="btn btn-secondary" type="submit">Активировать</button>
+                </form>
             </div>
         </article>
     </section>

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findAllByOrderByStatusAscScheduledAtAsc();
+    List<Delivery> findAllByVolunteerIdOrderByStatusAscScheduledAtAsc(Long volunteerId);
 }

@@ -34,8 +34,10 @@
                     <td>
                         <strong th:text="${request.beneficiary.fullName}">ФИО</strong>
                         <div class="muted-line" th:text="${request.beneficiary.phone}">Телефон</div>
-                        <div class="muted-line" th:text="${request.beneficiary.address}">Адрес</div>
+                        <div class="muted-line" th:text="${request.beneficiary.address}">Адрес получателя</div>
+                        <div class="muted-line" th:text="${request.deliveryAddress != null ? request.deliveryAddress : request.beneficiary.address}">Адрес доставки</div>
                         <div class="muted-line" th:text="${request.beneficiary.category}">Категория</div>
+                        <div class="muted-line" th:if="${request.receiptChannel != null}" th:text="${'Канал: ' + request.receiptChannel}">Канал</div>
                     </td>
                     <td>
                         <strong th:text="${request.ration.name}">Рацион</strong>

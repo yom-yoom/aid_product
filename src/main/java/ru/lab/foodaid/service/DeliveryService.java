@@ -35,12 +35,13 @@ public class DeliveryService {
             delivery = new Delivery();
             delivery.setHelpRequest(request);
         }
+
         delivery.setVolunteer(volunteer);
         delivery.setScheduledAt(scheduledAt);
-        delivery.setStatus(DeliveryStatus.PLANNED);
+        delivery.setStatus(DeliveryStatus.ASSIGNED);
         delivery.setResultComment(deliveryComment);
 
-        request.setStatus(RequestStatus.ASSIGNED);
+        request.setStatus(RequestStatus.IN_DELIVERY);
         request.setAdminComment("Назначена доставка");
         request.setDelivery(delivery);
 

@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface RationRepository extends JpaRepository<Ration, Long> {
     List<Ration> findAllByActiveTrueOrderByNameAsc();
+    List<Ration> findAllByOrderByNameAsc();
+    List<Ration> findByActiveTrueOrderByNameAsc();
     long countByActiveTrue();
 }

@@ -13,47 +13,29 @@
         <div>
             <span class="hero-tag">Профиль: получатель помощи</span>
             <h2>Оформление заявки на доставку продуктового набора</h2>
-            <p>Выберите подходящий рацион и отправьте заявку на доставку.</p>
+            <p>Выберите подходящий рацион и отправьте заявку на доставку. В системе используются справочники рационов, продуктов и заявок в соответствии с реляционной схемой проекта.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" th:href="@{/rations}">Открыть каталог</a>
-                <a class="btn btn-secondary" th:href="@{/requests/new}">Подать заявку</a>
             </div>
         </div>
         <div class="stats-grid compact-stats">
-            <div class="stat-card">
-                <span class="stat-label">Доступные рационы</span>
-                <strong class="stat-value" th:text="${rationCount}">0</strong>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Заявки в системе</span>
-                <strong class="stat-value" th:text="${requestCount}">0</strong>
-            </div>
+            <div class="stat-card"><span class="stat-label">Доступные рационы</span><strong class="stat-value" th:text="${rationCount}">0</strong></div>
+            <div class="stat-card"><span class="stat-label">Продукты в справочнике</span><strong class="stat-value" th:text="${productCount}">0</strong></div>
+            <div class="stat-card"><span class="stat-label">Заявки в системе</span><strong class="stat-value" th:text="${requestCount}">0</strong></div>
         </div>
     </section>
 
     <section class="hero" th:if="${currentProfile.name() == 'ADMIN'}">
         <div>
             <span class="hero-tag">Профиль: администратор</span>
-            <h2>Управление заявками и доставкой</h2>
-            <p>Проверяйте заявки, назначайте волонтёров и обновляйте статусы обработки.</p>
-            <div class="hero-actions">
-                <a class="btn btn-primary" th:href="@{/admin/requests}">Перейти к заявкам</a>
-                <a class="btn btn-secondary" th:href="@{/admin/rations/new}">Добавить рацион</a>
-            </div>
+            <h2>Управление заявками, рационами и доставками</h2>
+            <p>Администратор работает с заявками, редактирует справочники рационов, продуктов и волонтёров, а также формирует доставку по выбранной заявке.</p>
         </div>
         <div class="stats-grid compact-stats">
-            <div class="stat-card">
-                <span class="stat-label">Всего заявок</span>
-                <strong class="stat-value" th:text="${requestCount}">0</strong>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Доставки</span>
-                <strong class="stat-value" th:text="${deliveryCount}">0</strong>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Рационы</span>
-                <strong class="stat-value" th:text="${rationCount}">0</strong>
-            </div>
+            <div class="stat-card"><span class="stat-label">Всего заявок</span><strong class="stat-value" th:text="${requestCount}">0</strong></div>
+            <div class="stat-card"><span class="stat-label">Рационы</span><strong class="stat-value" th:text="${rationCount}">0</strong></div>
+            <div class="stat-card"><span class="stat-label">Продукты</span><strong class="stat-value" th:text="${productCount}">0</strong></div>
+            <div class="stat-card"><span class="stat-label">Волонтёры</span><strong class="stat-value" th:text="${volunteerCount}">0</strong></div>
         </div>
     </section>
 
@@ -61,51 +43,11 @@
         <div>
             <span class="hero-tag">Профиль: волонтёр</span>
             <h2>Работа с назначенными доставками</h2>
-            <p>Откройте список назначенных доставок и отметьте выполненные заявки.</p>
-            <div class="hero-actions">
-                <a class="btn btn-primary" th:href="@{/volunteer/deliveries}">Открыть доставки</a>
-            </div>
+            <p>Волонтёр получает список назначенных доставок, видит сведения о получателе и подтверждает выполнение доставки.</p>
         </div>
         <div class="stats-grid compact-stats">
-            <div class="stat-card">
-                <span class="stat-label">Назначенные доставки</span>
-                <strong class="stat-value" th:text="${deliveryCount}">0</strong>
-            </div>
+            <div class="stat-card"><span class="stat-label">Назначенные доставки</span><strong class="stat-value" th:text="${deliveryCount}">0</strong></div>
         </div>
-    </section>
-
-    <section class="quick-grid" th:if="${currentProfile.name() == 'CLIENT'}">
-        <article class="quick-card">
-            <h3>Каталог рационов</h3>
-            <p>Просмотр доступных наборов и выбор подходящего варианта.</p>
-            <a class="text-link" th:href="@{/rations}">Перейти в каталог</a>
-        </article>
-        <article class="quick-card">
-            <h3>Новая заявка</h3>
-            <p>Заполнение данных получателя и адреса доставки.</p>
-            <a class="text-link" th:href="@{/requests/new}">Открыть форму</a>
-        </article>
-    </section>
-
-    <section class="quick-grid" th:if="${currentProfile.name() == 'ADMIN'}">
-        <article class="quick-card">
-            <h3>Список заявок</h3>
-            <p>Изменение статуса заявки и просмотр информации по получателю.</p>
-            <a class="text-link" th:href="@{/admin/requests}">Открыть список</a>
-        </article>
-        <article class="quick-card">
-            <h3>Добавление рациона</h3>
-            <p>Создание нового продуктового набора для каталога.</p>
-            <a class="text-link" th:href="@{/admin/rations/new}">Добавить рацион</a>
-        </article>
-    </section>
-
-    <section class="quick-grid" th:if="${currentProfile.name() == 'VOLUNTEER'}">
-        <article class="quick-card">
-            <h3>Мои доставки</h3>
-            <p>Просмотр адресов, контактов и подтверждение выполнения доставки.</p>
-            <a class="text-link" th:href="@{/volunteer/deliveries}">Перейти к доставкам</a>
-        </article>
     </section>
 </main>
 </body>

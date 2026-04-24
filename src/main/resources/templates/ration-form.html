@@ -16,14 +16,24 @@
             </div>
         </div>
 
-        <form th:action="@{/admin/rations}" method="post">
+        <form th:action="@{/admin/rations}" th:object="${ration}" method="post">
             <div>
                 <label for="name">Название</label>
-                <input id="name" type="text" name="name" required>
+                <input id="name" type="text" th:field="*{name}" required>
+            </div>
+            <div>
+                <label for="period">Период</label>
+                <input id="period" type="text" th:field="*{period}" placeholder="например: на 3 дня">
             </div>
             <div class="single-field">
                 <label for="description">Описание</label>
-                <textarea id="description" name="description" required></textarea>
+                <textarea id="description" th:field="*{description}" required></textarea>
+            </div>
+            <div>
+                <label for="active">
+                    <input type="checkbox" id="active" th:field="*{active}">
+                    Активен
+                </label>
             </div>
             <div class="card-actions">
                 <button class="btn btn-primary" type="submit">Сохранить</button>

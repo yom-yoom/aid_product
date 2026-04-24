@@ -16,11 +16,22 @@ public class VolunteerService {
     }
 
     public List<Volunteer> findActive() {
-        return volunteerRepository.findAllByActiveTrueOrderByFullNameAsc();
+        return volunteerRepository.findAllByAvailabilityStatusOrderByFullNameAsc("Доступен");
     }
 
     public Volunteer getById(Long id) {
         return volunteerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Волонтёр не найден"));
+    }
+
+    public Volunteer save(Volunteer volunteer) {
+        if (volunteer.getAvailabilityStatus() == null || volunteer.getAvailabilityStatus().isBlank()) {
+            volunteer.setAvailabilityStatus("Доступен");
+        }
+        return volunteerRepository.save(volunteer);
+    }
+
+    public List<Volunteer> findAll() {
+        return volunteerRepository.findAllByOrderByFullNameAsc();
     }
 }

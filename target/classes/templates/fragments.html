@@ -32,6 +32,8 @@
             <a th:href="@{/rations}">Рационы</a>
             <a th:href="@{/requests/new}" th:if="${currentProfile.name() == 'CLIENT'}">Оформить заявку</a>
             <a th:href="@{/admin/requests}" th:if="${currentProfile.name() == 'ADMIN'}">Заявки</a>
+            <a th:href="@{/admin/products}" th:if="${currentProfile.name() == 'ADMIN'}">Продукты</a>
+            <a th:href="@{/admin/volunteers}" th:if="${currentProfile.name() == 'ADMIN'}">Волонтёры</a>
             <a th:href="@{/admin/rations/new}" th:if="${currentProfile.name() == 'ADMIN'}">Добавить рацион</a>
             <a th:href="@{/volunteer/deliveries}" th:if="${currentProfile.name() == 'VOLUNTEER'}">Мои доставки</a>
         </nav>
